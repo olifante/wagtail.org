@@ -1,10 +1,7 @@
-from django.forms import utils
-from django.utils import html
-
 from wagtail.core import blocks
 from wagtail.images import blocks as image_blocks
-
 from wagtailmedia import blocks as media_blocks
+
 
 class SubheadingBlock(blocks.CharBlock):
     class Meta:
@@ -67,7 +64,7 @@ class QuoteBlock(blocks.StructBlock):
         help_text=(
             "Additional information about the source. "
             "E.g. a persons job title and company."
-        )
+        ),
     )
 
     class Meta:
@@ -78,9 +75,7 @@ class QuoteBlock(blocks.StructBlock):
 class SectionContentBlock(blocks.StreamBlock):
     subheading = SubheadingBlock()
     divider = DividerBlock()
-    paragraph = blocks.RichTextBlock(
-        features=["bold", "italic", "link",  "ul", "ol"]
-    )
+    paragraph = blocks.RichTextBlock(features=["bold", "italic", "link", "ul", "ol"])
     cards = CardsBlock()
     link_button = LinkButtonBlock()
     quote = QuoteBlock()
@@ -91,22 +86,28 @@ class SectionMediaBlock(media_blocks.AbstractMediaChooserBlock):
 
 
 class SectionBlock(blocks.StructBlock):
-    title = blocks.CharBlock(required=True,  form_classname="full title")
-    icon = blocks.CharBlock(
+    title = blocks.CharBlock(required=True, form_classname="full title")
+    # Ensure that new choices are available in the icon sprite `./templates/services/includes/svg_sprite.html`
+    ICON_CHOICES = [
+        ("astronaut", "Astronaut"),
+        ("cloud", "Cloud"),
+        ("money-check", "Money check"),
+        ("tools", "Tools"),
+    ]
+    icon = blocks.ChoiceBlock(
+        choices=ICON_CHOICES,
         required=False,
-        max_length=50,
-        help_text="Icon name in SVG sprite (e.g. cloud)",
     )
 
     section_media = SectionMediaBlock(required=False)
     section_image = image_blocks.ImageChooserBlock(
         required=False,
-        help_text="Section image is used as a fallback when no media is defined."
+        help_text="Section image is used as a fallback when no media is defined.",
     )
     section_image_caption = blocks.CharBlock(
         required=False,
         label="Section image/media caption",
-        help_text="Rendered below the image/media"
+        help_text="Rendered below the image/media",
     )
 
     content = SectionContentBlock(required=False)

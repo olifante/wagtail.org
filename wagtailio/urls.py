@@ -12,6 +12,7 @@ from wagtail.core import urls as wagtail_urls
 from wagtail.core.models import Page
 from wagtail.utils.urlpatterns import decorate_urlpatterns
 
+from wagtail_ab_testing import urls as ab_testing_urls
 from wagtail_content_import import urls as wagtail_content_import_urls
 from wagtail_transfer import urls as wagtailtransfer_urls
 
@@ -20,7 +21,6 @@ from wagtailio.newsletter import views
 from wagtailio.newsletter.feeds import NewsLetterIssuesFeed
 from wagtailio.utils.views import favicon, robots
 from wagtailio.utils.cache import get_default_cache_control_decorator
-
 
 # Private URLs are not meant to be cached.
 private_urlpatterns = [
@@ -31,6 +31,7 @@ private_urlpatterns = [
 ] + decorate_urlpatterns([path("documents/", include(wagtaildocs_urls))], never_cache)
 
 urlpatterns = [
+    path('abtesting/', include(ab_testing_urls)),
     path("newsletter-signup/", views.newsletter_signup, name="newsletter_signup"),
     path("newsletter/feed/", NewsLetterIssuesFeed(), name="newsletter_feed"),
     path("blog/feed/", BlogFeed(), name="blog_feed"),
