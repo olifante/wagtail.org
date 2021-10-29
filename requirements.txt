@@ -13,7 +13,7 @@ whitenoise==5.3.0
 brotlipy==0.7.0
 django-storages==1.12.2
 boto3==1.19.4
-django-redis==4.9.0
+django-redis==5.0.0
 sentry-sdk==1.4.3
 scout-apm==2.23.2
 mammoth==1.4.17  # used for curstom wagtail content import parser
@@ -33,4 +33,4 @@ wagtailmedia==0.8.0
 
 
 # Pinned as django-redis has incompatibility with later versions
-redis==2.10.6
+redis==3.5.3
