@@ -1,8 +1,10 @@
 import six
 from django.core.exceptions import ValidationError
+from django.forms.utils import ErrorList
 from wagtail.core import blocks
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.snippets.blocks import SnippetChooserBlock
+from wagtailmedia.blocks import VideoChooserBlock
 
 from wagtailio.utils.blocks import CodeBlock
 
@@ -67,9 +69,23 @@ class PageOrExternalLinkBlock(blocks.StructBlock):
 class BannerBlock(blocks.StructBlock):
     title = blocks.CharBlock(max_length=128)
     sub_title = blocks.CharBlock(max_length=128)
-    image = ImageChooserBlock()
+    image = ImageChooserBlock(required=False)
+    video = VideoChooserBlock(required=False)
     background = ImageChooserBlock(required=False)
-    links = blocks.ListBlock(PageOrExternalLinkBlock())
+    links = blocks.ListBlock(PageOrExternalLinkBlock(icon="link"))
+
+    def clean(self, value):
+        errors = {}
+
+        if not value.get('image') and not value.get('video'):
+            error_message = 'You must select either an image or a video.'
+            errors['image'] = ErrorList([error_message])
+            errors['video'] = ErrorList([error_message])
+
+        if errors:
+            raise ValidationError('Validation error in StructBlock', params=errors)
+
+        return super().clean(value)
 
     class Meta:
         template = "core/blocks/banner_block.html"
