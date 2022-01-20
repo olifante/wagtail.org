@@ -10,8 +10,8 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ("images", "0010_add_duplicatefindingmixin"),
-        ("wagtailcore", "0066_collection_management_permissions"),
+        ('images', '0010_add_duplicatefindingmixin'),
+        ('wagtailcore', '0066_collection_management_permissions'),
     ]
 
     operations = [
