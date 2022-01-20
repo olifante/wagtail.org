@@ -1,9 +1,9 @@
 from django.db import models
-
-from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel
-from wagtail.core.fields import RichTextField
+from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel
+from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Page
 
+from wagtailio.areweheadlessyet.blocks import HomePageBlock
 from wagtailio.utils.models import CrossPageMixin, SocialMediaMixin
 
 
@@ -15,11 +15,12 @@ class AreWeHeadlessYetHomePage(Page, SocialMediaMixin, CrossPageMixin):
         (THUMBS_DOWN, THUMBS_DOWN),
     ]
     strapline_icon = models.CharField(
-        max_length=255,
+        max_length=15,
         choices=ICON_CHOICES,
         default=THUMBS_UP,
     )
     strapline_text = RichTextField(features=["bold", "italic"])
+    body = StreamField(HomePageBlock())
 
     content_panels = Page.content_panels + [
         MultiFieldPanel(
@@ -29,6 +30,7 @@ class AreWeHeadlessYetHomePage(Page, SocialMediaMixin, CrossPageMixin):
             ],
             "strapline",
         ),
+        StreamFieldPanel("body"),
     ]
 
     promote_panels = (

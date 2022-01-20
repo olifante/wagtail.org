@@ -18,17 +18,72 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AreWeHeadlessYetHomePage',
             fields=[
-                ('page_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='wagtailcore.page')),
-                ('social_text', models.CharField(blank=True, help_text='Description of this page as it should appear when shared on social networks, or in Google results', max_length=255, verbose_name='Meta description')),
-                ('listing_intro', models.TextField(blank=True, help_text='Summary of this page to display when this is linked from elsewhere in the site.')),
-                ('strapline_icon', models.CharField(choices=[('thumbs up', 'thumbs up'), ('thumbs down', 'thumbs down')], default='thumbs up', max_length=255)),
-                ('strapline_text', wagtail.core.fields.RichTextField()),
-                ('listing_image', models.ForeignKey(blank=True, help_text='Image to display along with summary, when this page is linked from elsewhere in the site.', null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='images.wagtailioimage')),
-                ('social_image', models.ForeignKey(blank=True, help_text="Image to appear alongside 'Meta description', particularly for sharing on social networks", null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to='images.wagtailioimage', verbose_name='Meta image')),
+                (
+                    "page_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="wagtailcore.page",
+                    ),
+                ),
+                (
+                    "social_text",
+                    models.CharField(
+                        blank=True,
+                        help_text="Description of this page as it should appear when shared on social networks, or in Google results",
+                        max_length=255,
+                        verbose_name="Meta description",
+                    ),
+                ),
+                (
+                    "listing_intro",
+                    models.TextField(
+                        blank=True,
+                        help_text="Summary of this page to display when this is linked from elsewhere in the site.",
+                    ),
+                ),
+                (
+                    "strapline_icon",
+                    models.CharField(
+                        choices=[
+                            ("thumbs up", "thumbs up"),
+                            ("thumbs down", "thumbs down"),
+                        ],
+                        default="thumbs up",
+                        max_length=255,
+                    ),
+                ),
+                ("strapline_text", wagtail.core.fields.RichTextField()),
+                (
+                    "listing_image",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="Image to display along with summary, when this page is linked from elsewhere in the site.",
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to="images.wagtailioimage",
+                    ),
+                ),
+                (
+                    "social_image",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="Image to appear alongside 'Meta description', particularly for sharing on social networks",
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to="images.wagtailioimage",
+                        verbose_name="Meta image",
+                    ),
+                ),
             ],
             options={
                 'abstract': False,
             },
-            bases=('wagtailcore.page', models.Model),
+            bases=("wagtailcore.page", models.Model),
         ),
     ]
