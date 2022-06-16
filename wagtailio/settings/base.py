@@ -79,8 +79,8 @@ INSTALLED_APPS = (
     "wagtail.api.v2",
     "wagtail.contrib.settings",
     "wagtailio.utils",
-    'wagtail.locales',
-    'wagtail.contrib.simple_translation',
+    "wagtail.locales",
+    "wagtail.contrib.simple_translation",
     "wagtailio.core",
     "wagtailio.images",
     "wagtailio.standardpage",
@@ -94,13 +94,14 @@ INSTALLED_APPS = (
     "wagtailio.sitewide_alert",
     "wagtailaltgenerator",
     "wagtailmedia",
+    "rest_framework",
 )
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
-    'django.middleware.locale.LocaleMiddleware',
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -125,9 +126,9 @@ USE_TZ = True
 WAGTAIL_I18N_ENABLED = True
 
 WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
-    ('en-gb', "English"),
-    ('pt-pt', "Portuguese"),
-    ('nl-nl', "Dutch"),
+    ("en-gb", "English"),
+    ("pt-pt", "Portuguese"),
+    ("nl-nl", "Dutch"),
 ]
 
 
@@ -264,14 +265,9 @@ CACHE_CONTROL_STALE_WHILE_REVALIDATE = int(
     env.get("CACHE_CONTROL_STALE_WHILE_REVALIDATE", 30)
 )
 
-SITEWIDE_ALERT_MAXAGE = int(
-    env.get("SITEWIDE_ALERT_MAXAGE", 300)
-)
+SITEWIDE_ALERT_MAXAGE = int(env.get("SITEWIDE_ALERT_MAXAGE", 300))
 
-SITEWIDE_ALERT_SMAXAGE = int(
-    env.get("SITEWIDE_ALERT_SMAXAGE", 60 * 60 * 24 * 7)
-)
-
+SITEWIDE_ALERT_SMAXAGE = int(env.get("SITEWIDE_ALERT_SMAXAGE", 60 * 60 * 24 * 7))
 
 
 # Cache
@@ -490,44 +486,42 @@ WAGTAILIMAGEIMPORT_FIELD_MAPPING = {
     "id": "driveidmapping__drive_id",
     "name": "title",
     "imageMediaMetadata__time": "exif_datetime",
-    "md5Checksum": "md5_hash"
+    "md5Checksum": "md5_hash",
 }
 
 
-AIRTABLE_API_KEY = env.get(
-    "AIRTABLE_API_KEY"
+AIRTABLE_API_KEY = env.get("AIRTABLE_API_KEY")
+BLOG_AIRTABLE_BASE_KEY = env.get("BLOG_AIRTABLE_BASE_KEY")
+BLOG_AIRTABLE_URL = env.get("BLOG_AIRTABLE_URL")
+FEATURES_AIRTABLE_BASE_KEY = env.get("FEATURES_AIRTABLE_BASE_KEY")
+FEATURES_AIRTABLE_URL = env.get("FEATURES_AIRTABLE_URL")
+WAGTAIL_AIRTABLE_ENABLED = all(
+    (
+        AIRTABLE_API_KEY,
+        BLOG_AIRTABLE_BASE_KEY,
+        BLOG_AIRTABLE_URL,
+        FEATURES_AIRTABLE_BASE_KEY,
+        FEATURES_AIRTABLE_URL,
+    )
 )
-BLOG_AIRTABLE_BASE_KEY = env.get(
-    "BLOG_AIRTABLE_BASE_KEY"
-)
-BLOG_AIRTABLE_URL = env.get(
-    "BLOG_AIRTABLE_URL"
-)
-FEATURES_AIRTABLE_BASE_KEY = env.get(
-    "FEATURES_AIRTABLE_BASE_KEY"
-)
-FEATURES_AIRTABLE_URL = env.get(
-    "FEATURES_AIRTABLE_URL"
-)
-WAGTAIL_AIRTABLE_ENABLED = all((AIRTABLE_API_KEY, BLOG_AIRTABLE_BASE_KEY, BLOG_AIRTABLE_URL, FEATURES_AIRTABLE_BASE_KEY, FEATURES_AIRTABLE_URL))
 AIRTABLE_IMPORT_SETTINGS = {
-    'blog.BlogPage': {
-        'AIRTABLE_BASE_KEY': BLOG_AIRTABLE_BASE_KEY,
-        'AIRTABLE_TABLE_NAME': 'Posts',
-        'AIRTABLE_UNIQUE_IDENTIFIER': {
-            'ID': 'id',
+    "blog.BlogPage": {
+        "AIRTABLE_BASE_KEY": BLOG_AIRTABLE_BASE_KEY,
+        "AIRTABLE_TABLE_NAME": "Posts",
+        "AIRTABLE_UNIQUE_IDENTIFIER": {
+            "ID": "id",
         },
-        'AIRTABLE_SERIALIZER': 'wagtailio.blog.serializers.BlogPageSerializer',
-        'AIRTABLE_BASE_URL': BLOG_AIRTABLE_URL,
+        "AIRTABLE_SERIALIZER": "wagtailio.blog.serializers.BlogPageSerializer",
+        "AIRTABLE_BASE_URL": BLOG_AIRTABLE_URL,
     },
-    'features.FeatureDescription': {
-        'AIRTABLE_BASE_KEY': FEATURES_AIRTABLE_BASE_KEY,
-        'AIRTABLE_TABLE_NAME': 'Feature Descriptions',
-        'AIRTABLE_UNIQUE_IDENTIFIER': {
-            'ID': 'id',
+    "features.FeatureDescription": {
+        "AIRTABLE_BASE_KEY": FEATURES_AIRTABLE_BASE_KEY,
+        "AIRTABLE_TABLE_NAME": "Feature Descriptions",
+        "AIRTABLE_UNIQUE_IDENTIFIER": {
+            "ID": "id",
         },
-        'AIRTABLE_SERIALIZER': 'wagtailio.features.serializers.FeatureDescriptionSerializer',
-        'AIRTABLE_BASE_URL': FEATURES_AIRTABLE_URL,
+        "AIRTABLE_SERIALIZER": "wagtailio.features.serializers.FeatureDescriptionSerializer",
+        "AIRTABLE_BASE_URL": FEATURES_AIRTABLE_URL,
     },
 }
 
@@ -541,19 +535,30 @@ WAGTAILTRANSFER_CONNECTED_INSTANCE_SECRET_KEY = env.get(
     "WAGTAILTRANSFER_CONNECTED_INSTANCE_SECRET_KEY"
 )
 
-WAGTAILTRANSFER_SOURCES = {
-    WAGTAILTRANSFER_CONNECTED_INSTANCE_NAME: {
-        'BASE_URL': WAGTAILTRANSFER_CONNECTED_INSTANCE_BASE_URL,
-        'SECRET_KEY': WAGTAILTRANSFER_CONNECTED_INSTANCE_SECRET_KEY,
-    },
-} if all((WAGTAILTRANSFER_CONNECTED_INSTANCE_NAME, WAGTAILTRANSFER_CONNECTED_INSTANCE_BASE_URL, WAGTAILTRANSFER_CONNECTED_INSTANCE_SECRET_KEY)) else {}
-
-WAGTAILTRANSFER_SECRET_KEY = env.get(
-    "WAGTAILTRANSFER_SECRET_KEY"
+WAGTAILTRANSFER_SOURCES = (
+    {
+        WAGTAILTRANSFER_CONNECTED_INSTANCE_NAME: {
+            "BASE_URL": WAGTAILTRANSFER_CONNECTED_INSTANCE_BASE_URL,
+            "SECRET_KEY": WAGTAILTRANSFER_CONNECTED_INSTANCE_SECRET_KEY,
+        },
+    }
+    if all(
+        (
+            WAGTAILTRANSFER_CONNECTED_INSTANCE_NAME,
+            WAGTAILTRANSFER_CONNECTED_INSTANCE_BASE_URL,
+            WAGTAILTRANSFER_CONNECTED_INSTANCE_SECRET_KEY,
+        )
+    )
+    else {}
 )
 
-WAGTAILTRANSFER_UPDATE_RELATED_MODELS = ['features.featureaspect', 'features.featuredescription']
+WAGTAILTRANSFER_SECRET_KEY = env.get("WAGTAILTRANSFER_SECRET_KEY")
+
+WAGTAILTRANSFER_UPDATE_RELATED_MODELS = [
+    "features.featureaspect",
+    "features.featuredescription",
+]
 
 WAGTAIL_AB_TESTING = {
-    'MODE': 'external',
+    "MODE": "external",
 }
