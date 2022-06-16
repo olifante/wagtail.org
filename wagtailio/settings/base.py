@@ -79,6 +79,8 @@ INSTALLED_APPS = (
     "wagtail.api.v2",
     "wagtail.contrib.settings",
     "wagtailio.utils",
+    'wagtail.locales',
+    'wagtail.contrib.simple_translation',
     "wagtailio.core",
     "wagtailio.images",
     "wagtailio.standardpage",
@@ -98,6 +100,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
+    'django.middleware.locale.LocaleMiddleware',
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -118,6 +121,14 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
+
+WAGTAIL_I18N_ENABLED = True
+
+WAGTAIL_CONTENT_LANGUAGES = LANGUAGES = [
+    ('en-gb', "English"),
+    ('pt-pt', "Portuguese"),
+    ('nl-nl', "Dutch"),
+]
 
 
 # Static files (CSS, JavaScript, Images)

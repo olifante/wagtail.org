@@ -1,6 +1,7 @@
 from django.urls import include, path
 from django.conf.urls.static import static
 from django.conf import settings
+from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
 from django.views.decorators.cache import never_cache
 from django.views.decorators.vary import vary_on_headers
@@ -30,11 +31,11 @@ private_urlpatterns = [
     path("sitewide_alert/", include(sitewide_alert_urls, namespace="sitewide_alert")),
     path("", include(wagtail_content_import_urls)),
     path("wagtail-transfer/", include(wagtailtransfer_urls)),
-    path('api/v2/', api_router.urls),
+    path("api/v2/", api_router.urls),
 ] + decorate_urlpatterns([path("documents/", include(wagtaildocs_urls))], never_cache)
 
 urlpatterns = [
-    path('abtesting/', include(ab_testing_urls)),
+    path("abtesting/", include(ab_testing_urls)),
     path("newsletter/feed/", NewsLetterIssuesFeed(), name="newsletter_feed"),
     path("blog/feed/", BlogFeed(), name="blog_feed"),
     path("sitemap.xml", sitemap),
@@ -57,7 +58,9 @@ if settings.DEBUG:
 urlpatterns = decorate_urlpatterns(urlpatterns, get_default_cache_control_decorator())
 
 
-urlpatterns = private_urlpatterns + urlpatterns + [path("", include(wagtail_urls))]
+urlpatterns = (
+    private_urlpatterns + urlpatterns + i18n_patterns(path("", include(wagtail_urls)))
+)
 
 # Set vary header to instruct cache to serve different version on different
 # cookies, different request method (e.g. AJAX) and different protocol
