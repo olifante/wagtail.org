@@ -59,7 +59,12 @@ urlpatterns = decorate_urlpatterns(urlpatterns, get_default_cache_control_decora
 
 
 urlpatterns = (
-    private_urlpatterns + urlpatterns + i18n_patterns(path("", include(wagtail_urls)))
+    private_urlpatterns
+    + urlpatterns
+    + i18n_patterns(
+        path("", include(wagtail_urls)),
+        prefix_default_language=False,
+    )
 )
 
 # Set vary header to instruct cache to serve different version on different
